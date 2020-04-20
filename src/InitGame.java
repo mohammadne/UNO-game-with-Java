@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 
-public class InitUNO {
+public class InitGame {
     public static int getPlayers() {
         System.out.print("How Many Players There Are (3-5)? ");
         final int playersCount = new Scanner(System.in).nextInt();

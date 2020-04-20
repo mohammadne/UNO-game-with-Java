@@ -8,7 +8,7 @@ public class CartsManager {
             char cardType = _cartTypeById(i);
             for (int j = 0; j < 13; j++) {
                 if (j < 10) {
-                    cards.add("" + cardType + ' ' + (char) j);
+                    cards.add("" + cardType + ' ' + j);
                 } else {
                     cards.add("" + cardType + ' ' + _innerCartTypeById(j));
                 }

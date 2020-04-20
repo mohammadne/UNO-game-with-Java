@@ -14,16 +14,21 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
+        System.out.println(9/5);
 
-        InitUNO.printRules();
-        boolean start = InitUNO.start();
+        InitGame.printRules();
+        boolean start = InitGame.start();
         if (!start)
             System.exit(0);
         clearConsole();
         ArrayList<String> carts = CartsManager.createCarts();
-        Collections.shuffle(carts, new Random()); 
-        int playersCount = InitUNO.getPlayers();
-        Turn turn = InitUNO.getTurn();
+        Collections.shuffle(carts, new Random());
+        int playersCount = InitGame.getPlayers();
+        Turn turn = InitGame.getTurn();
         clearConsole();
+
+        DrawCarts.draw(carts);
+        // for (String s : itemsArray)
+        // System.out.println(s);
     }
 }
