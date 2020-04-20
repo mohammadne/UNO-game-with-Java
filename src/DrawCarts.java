@@ -1,14 +1,15 @@
 import java.util.ArrayList;
+import java.util.List;
 
 enum LineType {
     Border, None, Text
 }
 
 public class DrawCarts {
-    public static void draw(ArrayList<String> carts) {
-        for (int i = 0; i < carts.size() / 5; i++) {
+    public static void draw(List<String> arrays) {
+        for (int i = 0; i < arrays.size() / 5; i++) {
             String[] itemsArray = new String[5];
-            itemsArray = carts.subList(i * 5, (i + 1) * 5).toArray(itemsArray);
+            itemsArray = arrays.subList(i * 5, (i + 1) * 5).toArray(itemsArray);
             println(itemsArray, LineType.Border);
             System.out.println();
             println(itemsArray, LineType.None);
@@ -20,10 +21,10 @@ public class DrawCarts {
             println(itemsArray, LineType.Border);
             System.out.println();
         }
-        if (carts.size() % 5 != 0) {
-            int remaining = carts.size() % 5;
+        if (arrays.size() % 5 != 0) {
+            int remaining = arrays.size() % 5;
             String[] itemsArray = new String[remaining];
-            itemsArray = carts.subList(carts.size() - remaining + 1, carts.size() + 1).toArray(itemsArray);
+            itemsArray = arrays.subList(arrays.size() - remaining, arrays.size()).toArray(itemsArray);
             println(itemsArray, LineType.Border);
             System.out.println();
             println(itemsArray, LineType.None);

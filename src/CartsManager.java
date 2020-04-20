@@ -4,9 +4,16 @@ public class CartsManager {
 
     public static ArrayList<String> createCarts() {
         ArrayList<String> cards = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i <= 3; i++) {
             char cardType = _cartTypeById(i);
             for (int j = 0; j < 13; j++) {
+                if (j < 10) {
+                    cards.add("" + cardType + ' ' + j);
+                } else {
+                    cards.add("" + cardType + ' ' + _innerCartTypeById(j));
+                }
+            }
+            for (int j = 1; j < 13; j++) {
                 if (j < 10) {
                     cards.add("" + cardType + ' ' + j);
                 } else {
