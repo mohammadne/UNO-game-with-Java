@@ -39,6 +39,20 @@ public class DrawCarts {
         }
     }
 
+    public static void printSingleCart(String cart) {
+        String[] itemsArray = { cart };
+        println(itemsArray, LineType.Border);
+        System.out.println();
+        println(itemsArray, LineType.None);
+        System.out.println();
+        println(itemsArray, LineType.Text);
+        System.out.println();
+        println(itemsArray, LineType.None);
+        System.out.println();
+        println(itemsArray, LineType.Border);
+        System.out.println();
+    }
+
     private static void println(String[] carts, LineType lineType) {
         for (int i = 0; i < carts.length; i++) {
             String text = carts[i];

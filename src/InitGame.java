@@ -8,15 +8,6 @@ public class InitGame {
         return playersCount;
     }
 
-    public static Turn getTurn() {
-        System.out.print("Insert 1 for clock wise , anything else for anti clock wise: ");
-        final String inputChar = new Scanner(System.in).nextLine();
-        if (inputChar.equals("1"))
-            return Turn.ClOCKWISE;
-
-        return Turn.ANTIClOCKWISE;
-    }
-
     public static void printRules() {
         System.out.println("Game Rules:");
         System.out.println("R:Red , Y:YELLOW , G:GREEN , B:BLUE , W:WILD");
