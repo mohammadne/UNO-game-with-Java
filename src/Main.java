@@ -56,6 +56,26 @@ public class Main {
         while (true) {
             /// validated carts
             List<Integer>[] validCarts = ValidatedCarts.validate(carts.get(carts.size() - 1), playersCart);
+
+            /// end of game
+            /// if someOnes cart is finished
+            for (List<String> tempList : playersCart) {
+                if (tempList.isEmpty()) {
+                    clearConsole();
+                    WinnerTable.draw(playersCart);
+                }
+            }
+            /// if all players don't have valid carts
+            int tempNum = 1;
+            for (List<Integer> tempList : validCarts) {
+                if (tempList.isEmpty())
+                    tempNum++;
+            }
+            if (tempNum == playersCount) {
+                clearConsole();
+                WinnerTable.draw(playersCart);
+            }
+
             /// print console part
             if (turn == 0) {
                 clearConsole();
@@ -79,10 +99,10 @@ public class Main {
                 System.out.println("\nYour Carts Are:");
                 DrawCarts.draw(playersCart[0]);
                 /// print what to do
-                System.out.println("\nEnter index of your carts from 0-" + playersCart[0].size() + " :");
+                System.out.println("\nEnter index of your carts from 0-" + (playersCart[0].size() - 1) + " :");
                 System.out.println("If you can't , type PICKUP");
                 /// hint
-                System.out.println("\nHint: You Could play the carts with index:");
+                System.out.println("\nHint: You Could Enter the carts with index:");
                 for (Integer index : validCarts[0]) {
                     System.out.print(" " + index);
                 }
