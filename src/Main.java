@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -31,6 +32,9 @@ public class Main {
         int playersCount = InitGame.getPlayers();
         /// game direction
         Direction direction = Direction.ClOCKWISE;
+        /// Wild Color
+        /// Z => means null
+        String color = "Z";
         /// first random turn
         int turn = new Random().nextInt(playersCount);
         clearConsole();
@@ -55,7 +59,7 @@ public class Main {
 
         while (true) {
             /// validated carts
-            List<Integer>[] validCarts = ValidatedCarts.validate(carts.get(carts.size() - 1), playersCart);
+            List<Integer>[] validCarts = ValidatedCarts.validate(carts.get(carts.size() - 1), playersCart, color);
 
             /// end of game
             /// if someOnes cart is finished
@@ -109,16 +113,14 @@ public class Main {
                 System.out.print(" :");
             }
             /// calculation part
+            int nextTurn = goToNextTurn(direction, turn, playersCount);
             if (turn == 0) {
                 final String str = new Scanner(System.in).nextLine();
                 if (validCarts[0].isEmpty()) {
                     if (str.toLowerCase().equals("pickup")) {
                         playersCart[0].add(carts.get(carts.size() - 1));
                         carts.remove(carts.size() - 1);
-                        turn++;
-                        turn %= playersCount;
-                        continue;
-                    } else {
+                        turn = nextTurn;
                         continue;
                     }
                 } else {
@@ -131,9 +133,51 @@ public class Main {
                             /// add this cart on top of carts
                             carts.add(cart);
                             lastPlayedCart[0] = cart;
-                            turn++;
-                            turn %= playersCount;
-                            continue;
+                            String a = cart.split(" ")[0];
+                            String b = cart.split(" ")[1];
+                            if (a != "W") {
+                                color = "Z";
+                                if (b.equals("Skip")) {
+                                    turn = nextTurn;
+                                    turn = nextTurn;
+                                } else if (b.equals("Reverse")) {
+                                    direction = toggleDirection(direction);
+                                    turn = nextTurn;
+                                } else if (b.equals("Draw2")) {
+                                    playersCart[nextTurn].add(carts.get(carts.size() - 1));
+                                    carts.remove(carts.size() - 1);
+                                    playersCart[nextTurn].add(carts.get(carts.size() - 1));
+                                    carts.remove(carts.size() - 1);
+                                    turn = nextTurn;
+                                    turn = nextTurn;
+                                } else {
+                                    turn = nextTurn;
+                                }
+                            } else {
+                                /// Wilds carts
+                                if (b.equals("Color")) {
+                                    String tempColor = getColor();
+                                    if (tempColor != null) {
+                                        color = tempColor;
+                                        turn = nextTurn;
+                                    }
+                                } else {
+                                    String tempColor = getColor();
+                                    if (tempColor != null) {
+                                        color = tempColor;
+                                        playersCart[nextTurn].add(carts.get(carts.size() - 1));
+                                        carts.remove(carts.size() - 1);
+                                        playersCart[nextTurn].add(carts.get(carts.size() - 1));
+                                        carts.remove(carts.size() - 1);
+                                        playersCart[nextTurn].add(carts.get(carts.size() - 1));
+                                        carts.remove(carts.size() - 1);
+                                        playersCart[nextTurn].add(carts.get(carts.size() - 1));
+                                        carts.remove(carts.size() - 1);
+                                        turn = nextTurn;
+                                        turn = nextTurn;
+                                    }
+                                }
+                            }
                         } else {
                             continue;
                         }
@@ -145,10 +189,7 @@ public class Main {
                 if (validCarts[turn].isEmpty()) {
                     playersCart[turn].add(carts.get(carts.size() - 1));
                     carts.remove(carts.size() - 1);
-                    turn++;
-                    turn %= playersCount;
-                    continue;
-
+                    turn = nextTurn;
                 } else {
                     int index = validCarts[turn].get(new Random().nextInt(validCarts[turn].size()));
                     String cart = playersCart[turn].get(index);
@@ -157,12 +198,94 @@ public class Main {
                     /// add this cart on top of carts
                     carts.add(cart);
                     lastPlayedCart[turn] = cart;
-                    turn++;
-                    turn %= playersCount;
-                    continue;
-                }
-            }
+                    String a = cart.split(" ")[0];
+                    String b = cart.split(" ")[1];
+                    if (a != "W") {
+                        color = "Z";
+                        if (b.equals("Skip")) {
+                            turn = nextTurn;
+                            turn = nextTurn;
+                        } else if (b.equals("Reverse")) {
+                            direction = toggleDirection(direction);
+                            turn = nextTurn;
+                        } else if (b.equals("Draw2")) {
+                            playersCart[nextTurn].add(carts.get(carts.size() - 1));
+                            carts.remove(carts.size() - 1);
+                            playersCart[nextTurn].add(carts.get(carts.size() - 1));
+                            carts.remove(carts.size() - 1);
+                            turn = nextTurn;
+                            turn = nextTurn;
+                        } else {
+                            turn = nextTurn;
+                        }
+                    } else {
+                        /// Wilds carts
+                        if (b.equals("Color")) {
+                            color = computerGetColor();
+                            turn = nextTurn;
 
+                        } else {
+                            color = computerGetColor();
+                            playersCart[nextTurn].add(carts.get(carts.size() - 1));
+                            carts.remove(carts.size() - 1);
+                            playersCart[nextTurn].add(carts.get(carts.size() - 1));
+                            carts.remove(carts.size() - 1);
+                            playersCart[nextTurn].add(carts.get(carts.size() - 1));
+                            carts.remove(carts.size() - 1);
+                            playersCart[nextTurn].add(carts.get(carts.size() - 1));
+                            carts.remove(carts.size() - 1);
+                            turn = nextTurn;
+                            turn = nextTurn;
+
+                        }
+                    }
+                }
+
+            }
         }
+
     }
+
+    static Direction toggleDirection(Direction direction) {
+        if (direction == Direction.ClOCKWISE) {
+            return Direction.ANTIClOCKWISE;
+        }
+        return Direction.ClOCKWISE;
+    }
+
+    static int goToNextTurn(Direction direction, int currentTurn, int playersCount) {
+        int turn = currentTurn;
+        if (direction == Direction.ClOCKWISE) {
+            turn++;
+            turn %= playersCount;
+        } else {
+            turn--;
+            if (turn < 0) {
+                turn += playersCount;
+            }
+        }
+        return turn;
+    }
+
+    static String getColor() {
+        System.out.print("Insert Your Color: ");
+        final String inputChar = new Scanner(System.in).nextLine();
+        if (inputChar.equals("R") || inputChar.equals("r"))
+            return "R";
+        else if (inputChar.equals("Y") || inputChar.equals("y"))
+            return "Y";
+        else if (inputChar.equals("G") || inputChar.equals("g"))
+            return "G";
+        else if (inputChar.equals("B") || inputChar.equals("b"))
+            return "B";
+        else
+            return null;
+    }
+
+    static String computerGetColor() {
+        List<String> givenList = Arrays.asList("R", "Y", "G", "B");
+        Random rand = new Random();
+        return givenList.get(rand.nextInt(givenList.size()));
+    }
+
 }
